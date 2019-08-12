@@ -1,5 +1,7 @@
 variable "name" {}
-variable "project_env" { default = "Bastion" }
+variable "project_env" { default = "Development" }
+variable "project_env_short" { default = "dev" }
+variable "namespace" { default = "" }
 variable "instance_type" {}
 variable "ami" {}
 
