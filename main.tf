@@ -31,6 +31,6 @@ resource "aws_eip" "eip_bastion" {
   instance    = "${aws_instance.bastion.id}"
 
   tags {
-    Name = "${var.namespace == "" ? "" : "${var.namespace}-"}-${var.name}"
+    Name = "${var.namespace == "" ? "" : "${var.namespace}-"}${var.name}"
   }
 }
