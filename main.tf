@@ -26,11 +26,35 @@ resource "aws_instance" "bastion" {
 
 }
 
+//////////////////////////////////////////////
+////// EIP:
+//////////////////////////////////////////////
 resource "aws_eip" "eip_bastion" {
   vpc = true
   instance    = "${aws_instance.bastion.id}"
 
   tags {
     Name = "${var.namespace == "" ? "" : "${var.namespace}-"}${var.name}"
+  }
+}
+
+//////////////////////////////////////////////
+////// CloudWatch:
+//////////////////////////////////////////////
+resource "aws_cloudwatch_metric_alarm" "ec2_recover" {
+  count               = "${var.ec2_autorecover ? 1 : 0}"
+  alarm_name          = "ec2-recovery-${lower(var.name)}"
+  namespace           = "AWS/EC2"
+  evaluation_periods  = "${var.cw_eval_periods}"
+  period              = "${var.cw_period}"
+  alarm_description   = "Auto recover ${lower(var.name)} instance"
+  alarm_actions       = ["arn:aws:automate:${var.aws_region}:ec2:recover"]
+  statistic           = "${var.cw_statistic}"
+  comparison_operator = "${var.cw_comparison}"
+  threshold           = "${var.cw_threshold}"
+  metric_name         = "${var.cw_recover_metric}"
+
+  dimensions {
+    InstanceId = "${aws_instance.this.id}"
   }
 }

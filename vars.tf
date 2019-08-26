@@ -15,3 +15,12 @@ variable "vpc_security_group_ids" { default = [] }
 variable "subnet_id" {}
 variable "volume_size" { default = "20" }
 variable "ebs_optimized" { default = true }
+
+// CloudWatch:
+variable "ec2_autorecover" { default = true }
+variable "cw_eval_periods" { default = "2" }
+variable "cw_period" { default = "60" }
+variable "cw_statistic" { default = "Minimum" }
+variable "cw_comparison" { default = "GreaterThanThreshold" }
+variable "cw_threshold" { default = "0.0" }
+variable "cw_recover_metric" { default = "StatusCheckFailed_System" }
