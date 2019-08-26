@@ -4,7 +4,6 @@ variable "project_env_short" { default = "dev" }
 variable "namespace" { default = "" }
 variable "instance_type" {}
 variable "ami" {}
-variable "aws_region" { default = "us-west-2" }
 
 variable "delete_on_termination" { default = false }
 variable "iam_instance_profile" {}

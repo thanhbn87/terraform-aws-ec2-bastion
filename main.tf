@@ -41,6 +41,7 @@ resource "aws_eip" "eip_bastion" {
 //////////////////////////////////////////////
 ////// CloudWatch:
 //////////////////////////////////////////////
+data "aws_region" "this" {}
 resource "aws_cloudwatch_metric_alarm" "ec2_recover" {
   count               = "${var.ec2_autorecover ? 1 : 0}"
   alarm_name          = "ec2-recovery-${lower(var.name)}"
@@ -48,7 +49,7 @@ resource "aws_cloudwatch_metric_alarm" "ec2_recover" {
   evaluation_periods  = "${var.cw_eval_periods}"
   period              = "${var.cw_period}"
   alarm_description   = "Auto recover ${lower(var.name)} instance"
-  alarm_actions       = ["arn:aws:automate:${var.aws_region}:ec2:recover"]
+  alarm_actions       = ["arn:aws:automate:${data.aws_region.this.name}:ec2:recover"]
   statistic           = "${var.cw_statistic}"
   comparison_operator = "${var.cw_comparison}"
   threshold           = "${var.cw_threshold}"
