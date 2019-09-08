@@ -1,3 +1,11 @@
+locals {
+  name = "${var.namespace == "" ? lower(var.name) : "${lower(var.namespace)}-${lower(var.name)}"}"
+  common_tags = {
+    Env  = "${var.project_env}"
+    Name = "${local.name}"
+  }
+}
+
 resource "aws_instance" "bastion" {
   instance_type = "${var.instance_type}"
   ami           = "${var.ami}"
@@ -19,10 +27,7 @@ resource "aws_instance" "bastion" {
     cpu_credits = "${var.cpu_credits}"
   }
 
-  tags {
-    Name = "${var.name}"
-    Env  = "${var.project_env}"
-  }
+  tags = "${merge(var.tags,local.common_tags)}"
 
 }
 
@@ -30,12 +35,9 @@ resource "aws_instance" "bastion" {
 ////// EIP:
 //////////////////////////////////////////////
 resource "aws_eip" "eip_bastion" {
-  vpc = true
-  instance    = "${aws_instance.bastion.id}"
-
-  tags {
-    Name = "${var.namespace == "" ? "" : "${var.namespace}-"}${var.name}"
-  }
+  vpc      = true
+  instance = "${aws_instance.bastion.id}"
+  tags     = "${merge(var.tags,local.common_tags)}"
 }
 
 //////////////////////////////////////////////

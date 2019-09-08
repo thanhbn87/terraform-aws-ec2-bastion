@@ -1,7 +1,7 @@
 variable "name" {}
+variable "namespace" { default = "" }
 variable "project_env" { default = "Development" }
 variable "project_env_short" { default = "dev" }
-variable "namespace" { default = "" }
 variable "instance_type" {}
 variable "ami" {}
 
@@ -15,6 +15,8 @@ variable "vpc_security_group_ids" { default = [] }
 variable "subnet_id" {}
 variable "volume_size" { default = "20" }
 variable "ebs_optimized" { default = true }
+
+variable "tags" { default = {} }
 
 // CloudWatch:
 variable "ec2_autorecover" { default = true }
