@@ -1,9 +1,11 @@
 locals {
-  name = "${var.namespace == "" ? lower(var.name) : "${lower(var.namespace)}-${lower(var.name)}"}"
+  name        = "${var.namespace == "" ? lower(var.name) : "${lower(var.namespace)}-${lower(var.name)}"}"
   common_tags = {
     Env  = "${var.project_env}"
     Name = "${local.name}"
   }
+
+  user_data_file = "${var.user_data_file == "" ? "${path.module}/user_data.sh" : var.user_data_file }"
 }
 
 resource "aws_instance" "bastion" {
@@ -22,6 +24,7 @@ resource "aws_instance" "bastion" {
   iam_instance_profile    = "${var.iam_instance_profile}"
   disable_api_termination = "${var.protect_termination}"
   ebs_optimized           = "${var.ebs_optimized}"
+  user_data               = "${file("${local.user_data_file}")}"
 
   credit_specification {
     cpu_credits = "${var.cpu_credits}"
