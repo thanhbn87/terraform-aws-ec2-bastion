@@ -1,19 +1,19 @@
 output "id" {
-  value = "${aws_instance.bastion.id}"
+  value = "${aws_instance.this.id}"
 }
 
-output "bastion_eip_id" {
-  value = "${aws_eip.eip_bastion.id}"
+output "eip_id" {
+  value = "${aws_eip.this.id}"
 }
 
-output "bastion_eip_instance" {
-  value = "${aws_eip.eip_bastion.instance}"
+output "eip_instance" {
+  value = "${aws_eip.this.instance}"
 }
 
-output "bastion_eip_private" {
-  value = "${aws_eip.eip_bastion.private_ip}"
+output "private_ip" {
+  value = "${aws_eip.this.private_ip}"
 }
 
-output "bastion_eip_public" {
-  value = "${aws_eip.eip_bastion.public_ip}"
+output "public_ip" {
+  value = "${aws_eip.this.public_ip}"
 }

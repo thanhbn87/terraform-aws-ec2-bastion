@@ -4,11 +4,9 @@ locals {
     Env  = "${var.project_env}"
     Name = "${local.name}"
   }
-
-  user_data_file = "${var.user_data_file == "" ? "${path.module}/user_data.sh" : var.user_data_file }"
 }
 
-resource "aws_instance" "bastion" {
+resource "aws_instance" "this" {
   instance_type = "${var.instance_type}"
   ami           = "${var.ami}"
 
@@ -24,7 +22,7 @@ resource "aws_instance" "bastion" {
   iam_instance_profile    = "${var.iam_instance_profile}"
   disable_api_termination = "${var.protect_termination}"
   ebs_optimized           = "${var.ebs_optimized}"
-  user_data               = "${file("${local.user_data_file}")}"
+  user_data               = "${var.user_data}"
 
   credit_specification {
     cpu_credits = "${var.cpu_credits}"
@@ -37,9 +35,9 @@ resource "aws_instance" "bastion" {
 //////////////////////////////////////////////
 ////// EIP:
 //////////////////////////////////////////////
-resource "aws_eip" "eip_bastion" {
+resource "aws_eip" "this" {
   vpc      = true
-  instance = "${aws_instance.bastion.id}"
+  instance = "${aws_instance.this.id}"
   tags     = "${merge(var.tags,local.common_tags)}"
 }
 
@@ -61,6 +59,6 @@ resource "aws_cloudwatch_metric_alarm" "ec2_recover" {
   metric_name         = "${var.cw_recover_metric}"
 
   dimensions {
-    InstanceId = "${aws_instance.bastion.id}"
+    InstanceId = "${aws_instance.this.id}"
   }
 }
