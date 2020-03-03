@@ -3,11 +3,11 @@ output "id" {
 }
 
 output "eip_id" {
-  value = "${aws_eip.this.id}"
+  value = "${element(concat(aws_eip.this.*.id,list('')),0)}"
 }
 
 output "eip_instance" {
-  value = "${aws_eip.this.instance}"
+  value = "${element(concat(aws_eip.this.*.instance,list('')),0)}"
 }
 
 output "private_ip" {
