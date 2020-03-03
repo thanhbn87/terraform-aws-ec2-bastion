@@ -15,6 +15,7 @@ variable "vpc_security_group_ids" { default = [] }
 variable "subnet_id" {}
 variable "volume_size" { default = "20" }
 variable "ebs_optimized" { default = true }
+variable "associate_public_ip_address" { default = false }
 variable "user_data" {
   description = "The user data to provide when launching the instance"
   default     = " "

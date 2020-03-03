@@ -23,6 +23,7 @@ resource "aws_instance" "this" {
   disable_api_termination = "${var.protect_termination}"
   ebs_optimized           = "${var.ebs_optimized}"
   user_data               = "${var.user_data}"
+  associate_public_ip_address = "${var.associate_public_ip_address}"
 
   credit_specification {
     cpu_credits = "${var.cpu_credits}"
