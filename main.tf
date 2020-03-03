@@ -37,6 +37,7 @@ resource "aws_instance" "this" {
 ////// EIP:
 //////////////////////////////////////////////
 resource "aws_eip" "this" {
+  count    = "${var.associate_public_ip_address ? 0 : 1}"
   vpc      = true
   instance = "${aws_instance.this.id}"
   tags     = "${merge(var.tags,local.common_tags)}"
