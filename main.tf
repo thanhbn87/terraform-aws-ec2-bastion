@@ -16,13 +16,13 @@ resource "aws_instance" "this" {
     delete_on_termination = "${var.delete_on_termination}"
   }
 
-  key_name                = "${var.key_name}"
-  vpc_security_group_ids  = ["${var.vpc_security_group_ids}"]
-  subnet_id               = "${var.subnet_id}"
-  iam_instance_profile    = "${var.iam_instance_profile}"
-  disable_api_termination = "${var.protect_termination}"
-  ebs_optimized           = "${var.ebs_optimized}"
-  user_data               = "${var.user_data}"
+  key_name                    = "${var.key_name}"
+  vpc_security_group_ids      = ["${var.vpc_security_group_ids}"]
+  subnet_id                   = "${var.subnet_id}"
+  iam_instance_profile        = "${var.iam_instance_profile}"
+  disable_api_termination     = "${var.protect_termination}"
+  ebs_optimized               = "${var.ebs_optimized}"
+  user_data                   = "${var.user_data}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
 
   credit_specification {
@@ -30,6 +30,10 @@ resource "aws_instance" "this" {
   }
 
   tags = "${merge(var.tags,local.common_tags)}"
+
+  lifecycle {
+    ignore_changes = ["user_data", "associate_public_ip_address"]
+  }
 
 }
 
